@@ -8,5 +8,7 @@
     <item android:title="Map"
         android:id="@+id/menu_map_room"
         android:icon="@drawable/baseline_album_24"/>
-
+    <item android:title="Lista de Pinturas"
+        android:id="@+id/menu_painting_list"
+        android:icon="@drawable/ic_list"/>
 </menu>

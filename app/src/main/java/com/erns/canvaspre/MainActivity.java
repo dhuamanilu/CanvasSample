@@ -1,6 +1,6 @@
+// MainActivity.java
 package com.erns.canvaspre;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -17,22 +17,25 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.erns.canvaspre.canvas.RoomViewListener;
 import com.erns.canvaspre.controller.EventViewModel;
-import com.erns.canvaspre.fragments.HomeFragment;
+import com.erns.canvaspre.listeners.RoomViewListener;
 import com.erns.canvaspre.fragments.GalleryFragment;
+import com.erns.canvaspre.fragments.HomeFragment;
+import com.erns.canvaspre.fragments.PaintingListFragment;
 import com.erns.canvaspre.fragments.PictureFragment;
 import com.erns.canvaspre.fragments.RoomFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity
-        implements RoomViewListener {
+        implements RoomViewListener { // Implementar la interfaz
+
     private final String TAG = "MainActivity";
     private EventViewModel eventViewModel;
     private FragmentManager fragmentManager;
     private HomeFragment homeFragment;
     private GalleryFragment galleryFragment;
+    private PaintingListFragment paintingListFragment;
     private PictureFragment pictureFragment;
     private RoomFragment roomFragment;
 
@@ -53,12 +56,11 @@ public class MainActivity extends AppCompatActivity
         eventViewModel = new ViewModelProvider(this).get(EventViewModel.class);
         eventViewModel.onRoomSelected().observe(this, roomSelectedObserver);
         eventViewModel.onPictureSelected().observe(this, pictureSelectedObserver);
-        eventViewModel.onCloseFragment().observe(this,closeFragmentObserver);
+        eventViewModel.onCloseFragment().observe(this, closeFragmentObserver);
 
         fragmentManager = getSupportFragmentManager();
 
         init();
-
     }
 
     private void init() {
@@ -90,22 +92,27 @@ public class MainActivity extends AppCompatActivity
         }
     };
 
-    private final NavigationBarView.OnItemSelectedListener onItemSelectedListener = new NavigationBarView.OnItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            if (item.getItemId() == R.id.menu_home) {
-                homeFragment = HomeFragment.newInstance("", "");
-                loadFragment(homeFragment);
-                return true;
-            } else if (item.getItemId() == R.id.menu_map_room) {
-                galleryFragment = GalleryFragment.newInstance();
-                loadFragment(galleryFragment);
-                return true;
-            } else {
-                return false;
-            }
-        }
-    };
+    private final NavigationBarView.OnItemSelectedListener onItemSelectedListener =
+            new NavigationBarView.OnItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    if (item.getItemId() == R.id.menu_home) {
+                        homeFragment = HomeFragment.newInstance("", "");
+                        loadFragment(homeFragment);
+                        return true;
+                    } else if (item.getItemId() == R.id.menu_map_room) {
+                        galleryFragment = GalleryFragment.newInstance();
+                        loadFragment(galleryFragment);
+                        return true;
+                    } else if (item.getItemId() == R.id.menu_painting_list) {
+                        paintingListFragment = new PaintingListFragment();
+                        loadFragment(paintingListFragment);
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            };
 
     private void loadFragment(Fragment fragment) {
         if (fragmentManager != null) {
@@ -117,23 +124,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void closePictureFragment() {
-        Log.d(TAG, "MainActivity open picture ");
+        Log.d(TAG, "MainActivity closePictureFragment");
         if (galleryFragment == null) {
             galleryFragment = GalleryFragment.newInstance();
-
         }
         loadFragment(galleryFragment);
     }
-
-//    public void onPause(){
-//        Intent serviceIntent=new Intent(....)
-//        serviceIntent.putExtra("command","start_foreground");
-//        startService(serviceIntent);
-//    }
-//    public void onResume(){
-//        Intent serviceIntent=new Intent(....)
-//        serviceIntent.putExtra("command","close_foreground");
-//        startService(serviceIntent);
-//    }
-
 }

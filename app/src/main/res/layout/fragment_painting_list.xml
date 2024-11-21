@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffecd8"
+    android:padding="16dp">
+
+    <!-- Barra de búsqueda -->
+    <EditText
+        android:id="@+id/painting_search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Buscar pinturas"
+        android:drawableStart="@drawable/ic_search"
+        android:padding="12dp"
+        android:inputType="text" />
+
+    <!-- Opciones de filtro -->
+    <RadioGroup
+        android:id="@+id/painting_filter_options"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <RadioButton
+            android:id="@+id/rb_painting_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Título"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/rb_painting_artist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Artista"
+            android:layout_marginStart="16dp" />
+
+        <RadioButton
+            android:id="@+id/rb_painting_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Descripción"
+            android:layout_marginStart="16dp" />
+
+    </RadioGroup>
+
+    <!-- Título de la lista -->
+    <TextView
+        android:id="@+id/painting_list_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lista de Pinturas"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:paddingTop="16dp" />
+
+    <!-- Mensaje cuando no hay resultados -->
+    <TextView
+        android:id="@+id/painting_empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No se encontraron pinturas"
+        android:textColor="@android:color/black"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp" />
+
+    <!-- RecyclerView para la lista de pinturas -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/painting_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="8dp"
+        android:scrollbars="vertical" />
+
+</LinearLayout>
