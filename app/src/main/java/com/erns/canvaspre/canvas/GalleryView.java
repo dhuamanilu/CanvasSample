@@ -147,8 +147,10 @@ public class GalleryView extends View {
         for (RoomAndVertex data : roomAndVertexList) {
             Path path = new Path();
             List<VertexEntity> vertexEntityList = data.vertexEntityList;
+
             path.moveTo(vertexEntityList.get(0).getX(), vertexEntityList.get(0).getY());
             for (int i = 1; i < vertexEntityList.size(); i++) {
+                Log.d("XDD", "X:" + vertexEntityList.get(i).getX() + ", Y:" + vertexEntityList.get(i).getY());
                 path.lineTo(vertexEntityList.get(i).getX(), vertexEntityList.get(i).getY());
             }
             path.close();
