@@ -64,12 +64,12 @@ public class GalleryView extends View {
         wallPaint.setStyle(Paint.Style.STROKE);
 
         doorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        doorPaint.setColor(Color.parseColor("#ff9800"));
+        doorPaint.setColor(Color.parseColor("#0000FF"));
         doorPaint.setStrokeWidth(10f);
         doorPaint.setStyle(Paint.Style.STROKE);
 
         picturePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        picturePaint.setColor(Color.parseColor("#ff9800"));
+        picturePaint.setColor(Color.GREEN);
         picturePaint.setMaskFilter(new BlurMaskFilter(10, BlurMaskFilter.Blur.SOLID));
 
         pictureIconTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -82,22 +82,35 @@ public class GalleryView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         float pointX = event.getX();
         float pointY = event.getY();
+
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            Log.d("TAG", "Clicked at: (" + pointX + ", " + pointY + ")");
 
-            Log.d("TAG", "Clicked");
+            // verificar si se hizo clic en una pintura
+            if (pictureEntityList != null) {
+                for (PictureEntity picture : pictureEntityList) {
+                    float dx = picture.x;
+                    float dy = picture.y;
+                    float radius = pictureRadius;
+                    float distance = (float) Math.sqrt(Math.pow(pointX - dx, 2) + Math.pow(pointY - dy, 2));
 
-            for (RoomEntity key : regions.keySet()) {
-                boolean clicked = regions.get(key).contains((int) pointX, (int) pointY);
-                if (clicked) {
-                    Log.d("TAG", key.label);
-                    eventViewModel.setRoomSelected(key.roomId);
+                    if (distance <= radius) {
+                        Log.d("TAG", "Picture clicked: " + picture.pictureId);
+
+                        // Notificar al EventViewModel que se ha seleccionado una pintura
+                        if (eventViewModel != null) {
+                            eventViewModel.setPictureSelected(picture.pictureId);
+                        }
+
+                        return true; // Evento manejado
+                    }
                 }
             }
 
-            return true;
+            return super.onTouchEvent(event); // No se manejó el evento
         }
 
-        return false;
+        return super.onTouchEvent(event); // No se manejó el evento
 
 
     }
